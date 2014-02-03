@@ -138,68 +138,6 @@ void displayGallows(int i) {
   }
 }
 
-char *getWord() {
-  char c[50000];  /* declare a char array */
-  int n;
-  FILE *file;  /* declare a FILE pointer  */
-  /* Opening words file */
-  if (strcmp(fileLoc, "") != 1) {
-    // Here is the default words file, you can change this into whatever words file you'd like.
-    file = fopen("words.txt", "r");
-  } else {
-    file = fopen(fileLoc, "r");
-  }
-  /* Incase the file cant be openend */
-  if(file==NULL) {
-    printf("An error has occured: can't open words file.\nPlease type the location of the words file:\n");
-    scanf("%s", fileLoc);
-    printf("Reading file '%s'.....\n\n", fileLoc);
-    file = fopen(fileLoc, "r");
-    if (file == NULL) {
-      while (file==NULL) {
-        printf("That file doesn't exist. Enter the location of the words file:\n");
-        scanf("%s", fileLoc);
-        printf("Reading file '%s'.....\n\n", fileLoc);
-        file = fopen(fileLoc, "r");
-      }
-    }
-    printf("File has been read.\n\n");
-    n = fread(c, 1, 50000, file);
-    c[n] = '\0';
-  }  else {
-    /* Reading the contents of the file */
-    n = fread(c, 1, 50000, file);
-    c[n] = '\0';
-  }
-  /* Separating the contents, divided by | and declaring variables */
-  char *token = strtok(c, "|");
-  char *words[200] = {0};
-  int f = 0;
-  while(token != NULL)
-    {
-      /* Allocating memory for the pointer */
-      words[f] = malloc(strlen(token)+1);
-      /* Copying entire string to pointer */
-      strcpy(words[f],token);
-      /* Resetting pointer */
-      token = strtok(NULL, "|");
-      f++;
-    }
-  /* Closing the file */
-  fclose(file);
-  /* Retrieving a random number */
-  int wordN = randomNumber(f);
-  /* Freeing all the memory allocated for the strings */
-  int q;
-  for(q  = 0; q < 200; q++)
-    {
-      if( q != wordN) {
-	free(words[q]);
-      }
-    }
-  /* Returning string */
-  return words[wordN];
-}
 int main(void) {
   char udi[] = "EMPTY";
   while ((strcmp(udi, "END") != 0) && ((strcmp(udi, "AGAIN") == 0) || (strcmp(udi, "EMPTY") == 0))) {
