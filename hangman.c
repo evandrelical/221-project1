@@ -4,14 +4,10 @@
 #include <string.h>
 /*******************************************
  *
- * Code written by Graphix. 
- * More information regarding this code,  other
- * hangman source code and words files
- * can be found on:
- *
+ * Source code originally written by Graphix (now defunct). 
  * http://www.hangman.symbolwebdesign.nl 
- *
- * Contact: info@symbolwebdesign.nl
+ * Code obtained from 
+ * www.daniweb.com/software-development/c/code/267241/hangman-source-code-c
  *
  ********************************************/
 
