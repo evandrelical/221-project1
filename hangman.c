@@ -1,5 +1,6 @@
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 /*******************************************
  *
@@ -144,20 +145,19 @@ void showGallows(int i) {
   }
 }
 
-
 int main() {
   showLogo();
   showStartMsg();
   
-  char str[10];
+  char guessWord[10];
   int i;
-  printf("Enter a string: ");
-  fgets(str, 11, stdin);
+  printf("Enter a string (max 10 characters): ");
+  fgets(guessWord, 11, stdin);
   /* remove newline, if present */
-  i = strlen(str)-1;
-  if( str[ i ] == '\n') 
-      str[i] = '\0';
-  printf("This is your string: %s\n\n", str);
+  i = strlen(guessWord)-1;
+  if( guessWord[ i ] == '\n') 
+      guessWord[i] = '\0';
+  printf("This is your string: %s\n\n", guessWord);
   
 return 0;
 }
