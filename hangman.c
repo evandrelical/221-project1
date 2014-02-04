@@ -1,6 +1,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*******************************************
+ *
+ * Source code originally written by Graphix (now defunct). 
+ * http://www.hangman.symbolwebdesign.nl 
+ * Contact: info@symbolwebdesign.nl
+ * 
+ * Code obtained from 
+ * www.daniweb.com/software-development/c/code/267241/hangman-source-code-c
+ * 
+ ********************************************/
+ 
 void showLogo() {
   printf("--------------------------------------------\n");
   printf("| #  #   #   #   #  #### #   #   #   #   # |\n");
@@ -137,6 +148,16 @@ void showGallows(int i) {
 int main() {
   showLogo();
   showStartMsg();
+  
+  char str[10];
+  int i;
+  printf("Enter a string: ");
+  fgets(str, 11, stdin);
+  /* remove newline, if present */
+  i = strlen(str)-1;
+  if( str[ i ] == '\n') 
+      str[i] = '\0';
+  printf("This is your string: %s\n\n", str);
   
 return 0;
 }
