@@ -1,21 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
-#include <time.h>
-#include <string.h>
-/*******************************************                                                                                 
- *                                                                                                                           
- * Code written by Graphix.                                                                                                  
- * More information regarding this code,  other                                                                              
- * hangman source code and words files                                                                                       
- * can be found on:                                                                                                          
- *                                                                                                                           
- * http://www.hangman.symbolwebdesign.nl                                                                                     
- *                                                                                                                           
- * Contact: info@symbolwebdesign.nl                                                                                          
- *                                                                                                                           
- ********************************************/
-char fileLoc[500]; // The backup file location                                                                               
+
 void showLogo() {
   printf("--------------------------------------------\n");
   printf("| #  #   #   #   #  #### #   #   #   #   # |\n");
@@ -25,7 +10,15 @@ void showLogo() {
   printf("| #  # #   # #   #  ###  #   # #   # #   # |\n");
   printf("--------------------------------------------\n\n");
 }
-void prn_galg(int i) {
+
+void showStartMsg() {
+  printf("Welcome to the game Hangman!\n\n");
+  printf("Player 1 enters a word and Player 2 guesses it.\n");
+  printf("Player 2 enters a single lower or upper-case character.\n");
+  printf("If 10 incorrect guesses have been made, Player 1 wins.\n\n");
+}
+
+void showGallows(int i) {
   switch (i) {
   case 0 :
     printf("Amount of wrong letters: %d\n\n", i);
@@ -87,8 +80,7 @@ void prn_galg(int i) {
     printf("  |\n");
     printf("__|_________\n\n");
     break;
-
-case 6 :
+  case 6 :
     printf("Amount of wrong letters: %d\n\n", i);
     printf("  _______\n");
     printf("  |/   | \n");
@@ -140,315 +132,11 @@ case 6 :
     break;
   }
 }
-char randomNumber(int max_number) {
-  srand(time(NULL));
-  int g = (rand() % (max_number + 1));
-  return g;
-}
 
-char *getWord() {
-  char c[50000];  /* declare a char array */
-  int n;
-  FILE *file;  /* declare a FILE pointer  */
-  /* Opening words file */
-  if (strcmp(fileLoc, "") != 1) {
-    // Here is the default words file, you can change this into whatever words file you'd like.                              
-    file = fopen("words.txt", "r");
-  } else {
-    file = fopen(fileLoc, "r");
-  }
-
-/* Incase the file cant be openend */
-  if(file==NULL) {
-    printf("An error has occured: can't open words file.\nPlease type the location of the words file:\n");
-    scanf("%s", fileLoc);
-    printf("Reading file '%s'.....\n\n", fileLoc);
-    file = fopen(fileLoc, "r");
-    if (file == NULL) {
-      while (file==NULL) {
-        printf("That file doesn't exist. Enter the location of the words file:\n");
-        scanf("%s", fileLoc);
-        printf("Reading file '%s'.....\n\n", fileLoc);
-        file = fopen(fileLoc, "r");
-      }
-    }
-    printf("File has been read.\n\n");
-    n = fread(c, 1, 50000, file);
-    c[n] = '\0';
-  }  else {
-    /* Reading the contents of the file */
-    n = fread(c, 1, 50000, file);
-    c[n] = '\0';
-  }
-
-/* Separating the contents, divided by | and declaring variables */
-  char *token = strtok(c, "|");
-  char *words[200] = {0};
-  int f = 0;
-  while(token != NULL)
-    {
-      /* Allocating memory for the pointer */
-      words[f] = malloc(strlen(token)+1);
-      /* Copying entire string to pointer */
-      strcpy(words[f],token);
-      /* Resetting pointer */
-      token = strtok(NULL, "|");
-      f++;
-    }
-  /* Closing the file */
-  fclose(file);
-  /* Retrieving a random number */
-  int wordN = randomNumber(f);
-  /* Freeing all the memory allocated for the strings */
-  int q;
-  for(q  = 0; q < 200; q++)
-    {
-      if( q != wordN) {
-	free(words[q]);
-      }
-    }
-  /* Returning string */
-  return words[wordN];
-}
-int main(void) {
-  char udi[] = "EMPTY";
-  while ((strcmp(udi, "END") != 0) && ((strcmp(udi, "AGAIN") == 0) || (strcmp(udi, "EMPTY") == 0))) {
-    strcpy(udi, "EMPTY");
-    /* Declaring variables */
-    /* Random deciding which word is chosen to be guessed:                                                                   
- guessWord is the word that needs to be guessed                                                                              
- currentWord is the word that is filled with dots */
-    /* Retrieving the word that matches with the wordNumber */
-    /* Check which number was chosen: printf("%d", wordNumber); */
-    char *tempWord = getWord();
-    /* Declaring the guessWord with the length of dkljafoue */
-    char guessWord[strlen(tempWord)+1];
-    /* Copying the string of dkljafoue into guessWord */
-    strcpy(guessWord, tempWord);
-    /* Freeing the pointer */
-    free(tempWord);
-    /* Calculate the length of the guessWord */
-    int wordlength = strlen(guessWord);
-    /* Creating the dotword (name: currentWord) */
-    char* currentWord = malloc( wordlength );
-    int t;
-    for (t = 0; t <= wordlength; t++) {
-      if (t == wordlength) {
-        currentWord[t] = '\0';
-      } else {
-        currentWord[t] =  '.';
-      }
-    }
-    /* Currentword check: printf("Currentword: \"%s\"", currentWord); */
-    /* Declaring variables */
-    int errors = 0; /* Error amount, if its higher than 10 the loop stops */
-    int guessedLetter = 0; /* Boolean Integer used to check wether the player entered a correct letter 0 = false, 1 = true *\
-/
-    int i,n = 1;
-    char c;
-    /* Printing logo */
-    showLogo();
-    /* Printing introduction message */
-    printf("%s\n\n%s\n%s\n%s\n%s\n\n%s%s\n\n",
-           "Welcome to the game Hangman!",
-           "The objective in this game is to guess the word.",
-           "You can enter both uppercase and lowercase letters.",
-           "If you think you know the word, you can type it in.",
-           "You will loose if you have guessed 10 letters wrong.",
-           "This is the word you need to guess: ",
-           currentWord);
-    printf("%d.     %s", n, "Enter the letter(s) you want to guess: ");
-    /* As long as the word hasn't been guessed or the errors are lower than 10: */
-    while( (strcmp(currentWord, guessWord) != 0) && (errors < 10) ){
-      scanf("%c", &c); /* Retrieving the user entry */
-      c = tolower(c); /* Removing caps */
-      if (c != '\n') {
-        if (isalpha(c)) { /* Making sure that the letter is alphanumeric */
-          /* Checking wether the letter that has been entered (c) occurs in the guessWord */
-          for (i = 0; i < wordlength; i++) {
-            if (guessWord[i] == c) {
-              currentWord[i] = c;
-              guessedLetter = 1;
-            }
-          }
-          /* Actions taken if the letter c doesn't occur in the guessWord and when it does */
-	if (guessedLetter == 0) {
-            errors++;
-            printf("\nThat letter was incorrect.\n\n");
-          } else {
-            guessedLetter = 0;
-            printf("\nThat letter was correct.\n\n");
-          }
-          /* Showing the galg and the amount of errors */
-          printf("%s%s\n\n", "The word including the letters you guessed: ", currentWord);
-          prn_galg(errors);
-          n++; /* Increasing attempt amount */
-          /* Showing header if the word has not been guessed and the errors are lower than 10 */
-          if ( (strcmp(currentWord, guessWord) != 0) && (errors < 10) ) {
-            printf("%d.     %s", n, "Enter the letter(s) you want to guess: ");
-          }
-          /* If the letter isn't alphanumeric (isalpha()) */
-        } else {
-          printf("Only alphanumeric symbols are allowed (a-z, A-Z), try again:\n");
-        }
-      }
-    }
-    /* Showing the results, wether the player won or not  */
-    printf("---------------\n");
-    printf("--- Results ---\n");
-    printf("---------------\n\n");
-    if (errors < 10) {
-      if (strcmp(currentWord, guessWord) == 0) {
-        printf("Congratulations you have guessed the right word!\n\n");
-      } else {
-        printf("You have guessed the wrong word, better luck next time!\n\n");
-      }
-    } else {
-      printf("You have guessed the wrong word, better luck next time!\n\n");
-    }
-    printf("\nLetters guessed wrong: %d\nThe word that needed to be guessed: %s\nThe word you guessed: %s\n", errors, guessW\
-ord, currentWord);
-    printf("\nEnter 'end' to end the game or enter 'again' to guess another word:\n");
-    // Making sure that the user doesn't enter strange things                                                                
-    while ((strcmp(udi, "END") != 0) && (strcmp(udi, "AGAIN") != 0)) {
-      if (strcmp(udi, "EMPTY") != 0) {
-        printf("\n\nIt is not allowed to enter anything else than 'again' or 'end', try again:\n");
-      }
-      // Retrieving the udi (udi = user determined input)                                                                    
-      scanf("%s", udi);
-      // Converting the udi to uppercase                                                                                     
-      int x;
-      for (x = 0; x < 5; x++) {
-        udi[x] = toupper(udi[x]);
-      }
-    }
-    printf("\n\n--------------------------------------------\n\n");
-  }
-  return 0;
-}
-
-/*
-Code that actually runs and doesn't require external text file.
-Need to edit to work like this:
-
-#include "stdio.h"
-#include "stdlib.h"
-#include "string.h"
-#include "time.h"
 
 int main() {
-
-	srand(time(NULL));
-	
-	char guessWords[][16] = {
-		"green", 
-		"yellow",
-		"purple",
-		"windows",
-		"linux",
-		"apple"	
-	};
-	
-	// index for random word
-	int randomIndex = rand() % 6;
-	
-	int numLives = 5;
-	int numCorrect = 0;
-	int oldCorrect = 0;
-	
-	int lengthOfWord = strlen(guessWords[randomIndex]);
-	
-	//					     0 1 2 3 4 5
-	//				         p u r p l e
-	//  letterGuessed[8] = { 0,0,0,0,0,0,0,0 };
-	int letterGuessed[8] = { 0,0,0,0,0,0,0,0 };
-	
-	int quit = 0;	
-	
-	int loopIndex = 0;
-	int reguessed = 0; // EDIT
-	
-	char guess[16];
-	char letterEntered;	
-	
-    // game loop	
-	while ( numCorrect < lengthOfWord ) {
-	
-		printf("\n\nNew Turn....\nHangman Word:");
-	
-		for( loopIndex = 0; loopIndex < lengthOfWord; loopIndex++) {
-		
-			if(letterGuessed[loopIndex] == 1) {
-				printf("%c",guessWords[randomIndex][loopIndex]);				
-			} else {
-				printf("-");
-			}
-		
-		}	
-		
-		printf("\n");
-	
-		printf("Number Correct So Far:%d\n",numCorrect);
-		printf("Enter a guess letter:");
-		fgets(guess, 16, stdin);
-		
-		if( strncmp(guess, "quit", 4) == 0) {
-			quit = 1;
-			break;
-		}
-		
-		letterEntered = guess[0];
-		reguessed = 0; 
-		
-		printf("letterEntered:%c\n",letterEntered);
-		
-		oldCorrect = numCorrect;
-		
-		for( loopIndex = 0; loopIndex < lengthOfWord; loopIndex++) {
-		
-			if(letterGuessed[loopIndex] == 1) {
-				if(guessWords[randomIndex][loopIndex] == letterEntered) {
-					reguessed = 1; 
-					break;
-				} 
-				continue;
-			}
-		
-			if( letterEntered == guessWords[randomIndex][loopIndex] ) {
-				letterGuessed[loopIndex] = 1;
-				numCorrect++;				
-			}		
-		
-		}	
-		
-		if( oldCorrect == numCorrect && reguessed == 0) {
-			numLives--;
-			printf("Sorry, wrong guess\n");
-			if (numLives == 0) {
-				break;
-			}
-		} else if( reguessed == 1) {
-			printf("Already Guessed!!\n");
-		} else {
-			printf("Correct guess :)\n");
-		}
-	
-	} // while loop
-	
-	if( quit == 1 ) {	
-		printf("\nthe user quit early\n");
-	} else if (numLives == 0) {
-		printf("\nSorry you lose, the word was: %s\n",
-		guessWords[randomIndex]);	
-	} else  {	
-		printf("\nYOU WIN!!! :)\n");
-	} 
-	
-		
-	return 0;
+  showLogo();
+  showStartMsg();
+  
+return 0;
 }
-
-
-
-*/
-
