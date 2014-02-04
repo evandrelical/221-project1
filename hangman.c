@@ -15,17 +15,17 @@
  
 void showLogo() {
   printf("--------------------------------------------\n");
-  printf("| #  #   #   #   #  #### #   #   #   #   # |\n");
-  printf("| #  #  # #  ##  # #     ## ##  # #  ##  # |\n");
-  printf("| #### ##### # # # #  ## # # # ##### # # # |\n");
-  printf("| #  # #   # #  ## #   # #   # #   # #  ## |\n");
-  printf("| #  # #   # #   #  ###  #   # #   # #   # |\n");
+  printf("| H  H   A   N   N  GGGG M   M   A   N   N |\n");
+  printf("| H  H  A A  NN  N G     MM MM  A A  NN  N |\n");
+  printf("| HHHH AAAAA N N N G  GG M M M AAAAA N N N |\n");
+  printf("| H  H A   A N  NN G   G M   M A   A N  NN |\n");
+  printf("| H  H A   A N   N  GGG  M   M A   A N   N |\n");
   printf("--------------------------------------------\n\n");
 }
 
 void showStartMsg() {
   printf("Welcome to the game Hangman!\n\n");
-  printf("Player 1 enters a word and Player 2 guesses it.\n");
+  printf("Player 1 has entered a word for Player 2 to guess.\n");
   printf("Player 2 enters a single lower or upper-case character.\n");
   printf("If 10 incorrect guesses have been made, Player 1 wins.\n\n");
 }
