@@ -181,7 +181,8 @@ int main() {
   while( (strcmp(currentWord, guessWord) != 0) && (errors < 10) ){
     c = getchar(); /* Retrieving the user entry */
 	/* Checking whether entered letter (c) occurs in guessWord */
-    for (int i = 0; i < wordlength; i++) {
+	int i;
+    for (i = 0; i < wordlength; i++) {
       if (guessWord[i] == c) {
         currentWord[i] = c;
         guessedLetter = 1;
