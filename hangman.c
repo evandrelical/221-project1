@@ -179,11 +179,12 @@ int main() {
   showLogo();
   showStartMsg();
   printf("Player 2 - This is the word to guess: %s\n", currentWord);
-  printf("Enter the letter(s) you want to guess: ");
+  printf("Enter the letter you want to guess: ");
   
   /* As long as the word hasn't been guessed or the errors are lower than 10: */
   while( (strcmp(currentWord, guessWord) != 0) && (errors < 10) ){
     c = getchar(); /* Retrieving the user entry */
+	getchar();
 	/* Checking whether entered letter (c) occurs in guessWord */
 	int i;
     for (i = 0; i < wordlength; i++) {
