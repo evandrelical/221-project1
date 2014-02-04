@@ -15,19 +15,23 @@
  
 void showLogo() {
   printf("--------------------------------------------\n");
+  printf("--------------------------------------------\n");
   printf("| H  H   A   N   N  GGGG M   M   A   N   N |\n");
   printf("| H  H  A A  NN  N G     MM MM  A A  NN  N |\n");
   printf("| HHHH AAAAA N N N G  GG M M M AAAAA N N N |\n");
   printf("| H  H A   A N  NN G   G M   M A   A N  NN |\n");
   printf("| H  H A   A N   N  GGG  M   M A   A N   N |\n");
+  printf("--------------------------------------------\n");
   printf("--------------------------------------------\n\n");
 }
 
 void showStartMsg() {
   printf("Welcome to the game Hangman!\n\n");
-  printf("Player 1 has entered a word for Player 2 to guess.\n");
-  printf("Player 2 enters a single lower or upper-case character.\n");
-  printf("If 10 incorrect guesses have been made, Player 1 wins.\n\n");
+  printf("Player 1 has already entered a word.\n");
+  printf("Player 2 now must guess the word exactly.\n");
+  printf("Player 2 enters a single character.\n");
+  printf("If 10 incorrect guesses have been made, Player 2 loses.\n");
+  printf("Good luck!\n\n");
 }
 
 void showGallows(int i) {
@@ -150,7 +154,6 @@ int main() {
   /* Declaring variables */
   char guessWord[10]; /* The word that needs to be guessed */
   int wordlength;	/* Calculate the length of the guessWord */
-  int attempts = 0;
   int errors = 0; /* Error amount, if its higher than 10 the loop stops */
   char c;	/* Player 2's guess */
   int guessedLetter = 0; /* Boolean Int. 0 = incorrect letter, 1 = correct letter */
@@ -176,6 +179,7 @@ int main() {
   showLogo();
   showStartMsg();
   printf("Player 2 - This is the word to guess: %s\n", currentWord);
+  printf("Enter the letter(s) you want to guess: ");
   
   /* As long as the word hasn't been guessed or the errors are lower than 10: */
   while( (strcmp(currentWord, guessWord) != 0) && (errors < 10) ){
@@ -199,11 +203,7 @@ int main() {
     /* Display the gallows and number of errors */
     printf("%s%s\n\n", "The word including the letters you guessed: ", currentWord);
     showGallows(errors);
-    attempts++; /* Increasing attempt amount */
-    /* Showing header if the word has not been guessed and the errors are lower than 10 */
-    if ( (strcmp(currentWord, guessWord) != 0) && (errors < 10) ) {
-      printf("%d.     %s", attempts, "Enter the letter(s) you want to guess: ");
-    }
+
   } // end while
   
 return 0;
