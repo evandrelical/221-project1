@@ -189,16 +189,16 @@ int main() {
     for (i = 0; i < wordlength; i++) {
       if (guessWord[i] == c) {
         currentWord[i] = c;
-        guessedLetter = 0;
+        guessedLetter = 1;
       }
     }
     /* Actions taken if the letter c doesn't occur in the guessWord and when it does */
     if (guessedLetter == 0) {
-      errors++;
       printf("\nThat letter was incorrect.\n\n");
+	  errors++;
     } else {
-      guessedLetter = 0;
       printf("\nThat letter was correct.\n\n");
+	  guessedLetter = 0; /* resetting guessedLetter */
      }
     /* Display the gallows and number of errors */
     printf("%s%s\n\n", "The word including the letters you guessed: ", currentWord);
