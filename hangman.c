@@ -189,7 +189,7 @@ int main() {
     for (i = 0; i < wordlength; i++) {
       if (guessWord[i] == c) {
         currentWord[i] = c;
-        guessedLetter = 1;
+        guessedLetter = 0;
       }
     }
     /* Actions taken if the letter c doesn't occur in the guessWord and when it does */
