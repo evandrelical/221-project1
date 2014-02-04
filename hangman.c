@@ -149,15 +149,31 @@ int main() {
   showLogo();
   showStartMsg();
   
-  char guessWord[10];
-  int i;
-  printf("Enter a string (max 10 characters): ");
+  char guessWord[10]; /* The word that needs to be guessed */
+  int wordlength;	/* Calculate the length of the guessWord */
+  printf("Enter a word (max 10 characters): ");
   fgets(guessWord, 11, stdin);
   /* remove newline, if present */
-  i = strlen(guessWord)-1;
-  if( guessWord[ i ] == '\n') 
-      guessWord[i] = '\0';
-  printf("This is your string: %s\n\n", guessWord);
+  wordlength = strlen(guessWord)-1;
+  if( guessWord[wordlength] == '\n') 
+      guessWord[wordlength] = '\0';
+  printf("This is your word: %s\n\n", guessWord);
   
+  /* Creating the dotword (name: currentWord) */
+  char* currentWord = malloc( wordlength );
+  int t;
+  for (t = 0; t <= wordlength; t++) {
+    if (t == wordlength) {
+      currentWord[t] = '\0';
+    } else {
+      currentWord[t] =  '.';
+    }
+  }
+  
+  /* Currentword check: printf("Currentword: \"%s\"", currentWord); */
+  /* Declaring variables */
+  int errors = 0; /* Error amount, if its higher than 10 the loop stops */
+  int guessedLetter = 0; /* Boolean Int. 0 = incorrect letter, 1 = correct letter */
+  printf("This is the word you need to guess: %s\n", currentWord);
 return 0;
 }
